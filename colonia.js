@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 const CorsairianBot = new Discord.Client();
 //const MaikaBot = new Discord.Client();
 const PREFIX = '!';
-const YTDL = require("ytdl-core");
+//const YTDL = require("ytdl-core");
 var servers = {};
 var groupId = 2736265;
 
 
-function play(connection, message) {
+/*function play(connection, message) {
     var server = servers[message.guild.id];
 
     server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
@@ -18,7 +18,7 @@ function play(connection, message) {
         if (server.queue[0]) play(connection, message);
         else connection.disconnect();
     }); 
-}
+}*/
 
 
 CorsairianBot.on('message', (message) => {{
@@ -59,7 +59,7 @@ CorsairianBot.on('message', (message) => {{
     //===============================================================================================
         } else if (message.content.startsWith(PREFIX + "play")) { //Music Section
     //===============================================================================================
-            const args = message.content.split(/\s+/g).slice(1);
+            /*const args = message.content.split(/\s+/g).slice(1);
             for (i=0; i<args.length; i++) {
                 console.log(args[i]);
             }
@@ -86,7 +86,7 @@ CorsairianBot.on('message', (message) => {{
         } else if(message.content.startsWith(PREFIX + "skipmusic")) {
             var server = servers[message.guild.id];
 
-            if(server.dispatcher) server.dispatcher.end();
+            if(server.dispatcher) server.dispatcher.end();*/
         }
         //===============================================================================================
         //Roleplay Section
