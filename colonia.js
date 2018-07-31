@@ -38,7 +38,7 @@ CorsairianBot.on('message', (message) => {{
             message.channel.send("Member has been banned.");
         } else if (message.content.startsWith(PREFIX + "purge") && message.member.roles.has(allowedRole.id)) {
             const args = message.content.split(/\s+/g).slice(1);
-            let messagecount = parseInt(args[0]+1);
+            let messagecount = parseInt(args[0]) + 1;
             message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
             message.channel.send("Messages deleted.");
         } else if(message.content.startsWith(PREFIX + "roll")) {
