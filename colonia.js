@@ -17,13 +17,13 @@ CorsairianBot.on('message', (message) => {{
     let allowedRole2 = message.guild.roles.find("name", "[-] Officer Role");
     let PrestigeAdd = Math.floor(Math.random() * 2);
     NextLevel = {
-        Trooper = 50,
-        Corporal = 200,
-        Sergeant = 500,
-        StaffSergeant = 500,
-        Lieutenant = 700,
-        Colonel = 1200,
-        General = 1600,
+        Trooper: 50,
+        Corporal: 200,
+        Sergeant: 500,
+        StaffSergeant: 500,
+        Lieutenant: 700,
+        Colonel: 1200,
+        General: 1600,
     }
     
     if(!Prestige[message.author.id]) {
