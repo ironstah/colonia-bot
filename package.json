@@ -1,13 +1,16 @@
 {
-  "name": "Test",
-  "description": "Test",
-  "version": "0.0.0",
+  "name": "vs",
+  "version": "1.0.0",
+  "description": "",
   "main": "colonia.js",
   "scripts": {
-    "start": "node colonia.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "discord.js": "11.1.0",
-    "request": "2.81.0"
+    "discord.js": "^11.1.0",
+    "opusscript": "0.0.3",
+    "ytdl-core": "^0.15.0"
   }
 }
