@@ -7,20 +7,6 @@ var servers = {};
 var groupId = 2736265;
 
 
-/*function play(connection, message) {
-    var server = servers[message.guild.id];
-
-    server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
-
-    server.queue.shift();
-
-    server.dispatcher.on("end", function() {
-        if (server.queue[0]) play(connection, message);
-        else connection.disconnect();
-    }); 
-}*/
-
-
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus"
     if (message.author.username != BotUsername) {
@@ -56,41 +42,8 @@ CorsairianBot.on('message', (message) => {{
             let messagecount = parseInt(args[0]);
             message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
             message.channel.send("Messages deleted.");
-    //===============================================================================================
-        } else if (message.content.startsWith(PREFIX + "play")) { //Music Section
-    //===============================================================================================
-            /*const args = message.content.split(/\s+/g).slice(1);
-            for (i=0; i<args.length; i++) {
-                console.log(args[i]);
-            }
-            if (!args[0]) {
-                message.channel.send(`Add a youtube link to !play.`);
-            }
-            if (!message.member.voiceChannel) {
-                message.channel.send(`Join a voice channel.`)    
-            }
-            if (!servers[message.guild.id]) servers[message.guild.id] = {
-                
-                queue: []
-            } 
-            var server = servers[message.guild.id];
-            if (!message.guild.voiceConnection) message.member.voiceChannel.join() 
-                    .then(function(connection) {
-                    play(connection, message);
-                });
-            }
-        } else if(message.content.startsWith(PREFIX + "stopmusic")) {
-            var server = servers[message.guild.id];
-
-            if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
-        } else if(message.content.startsWith(PREFIX + "skipmusic")) {
-            var server = servers[message.guild.id];
-
-            if(server.dispatcher) server.dispatcher.end();*/
         }
-        //===============================================================================================
-        //Roleplay Section
-        //===============================================================================================
+        
         if(message.content.startsWith(PREFIX + "roll")) {
             message.channel.send("You got a " + Math.floor(Math.random() * 20));
         } else if (message.content.startsWith(PREFIX + "8ball")) {
