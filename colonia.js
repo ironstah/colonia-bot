@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
+const Prestige = require(`./prestige.json`);
 const CorsairianBot = new Discord.Client();
+const EmptyMark = client.emojis.find("name", "black_circle");
+const FilledMark = client.emojis.find("name", "JustAnotherDayCUImage");
 const PREFIX = '!';
+const fs = require('fs');
 //const YTDL = require("ytdl-core");
 var servers = {};
 var groupId = 2736265;
@@ -9,10 +13,83 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-    let allowedRole = message.guild.roles.find("name", "[-] Moderator");
+    let allowedRole = message.guild.roles.find("name", "[-] Moderator Role");
+    let allowedRole2 = message.guild.roles.find("name", "[-] Officer Role");
+    let PrestigeAdd = Math.floor(Math.random() * 2);
+    NextLevel = {
+        Trooper = 50,
+        Corporal = 200,
+        Sergeant = 500,
+        StaffSergeant = 500,
+        Lieutenant = 700,
+        Colonel = 1200,
+        General = 1600,
+    }
+    
+    if(!Prestige[message.author.id]) {
+        Prestige[message.author.id] = {
+            Points: 0,
+            Role: "Recruit",
+            Rank: 1,
+            NextLevel: NextLevel[0],
+        }
+    }  
+    let CurrentPrestige = Prestige[message.author.id].Points
+    let CurrentRank = Prestige[message.author.id].Rank
+    let NextLevel = Prestige[message.author.id].NextLevel
+    let Role = Prestige[message.author.id].Role
+
+    CurrentPrestige = CurrentPrestige + PrestigeAdd;
+
+    if (CurrentPrestige >= NextLevel) {
+        message.channel.send(`${message.author.username} have been promoted.`);
+        NextLevel = NextLevel[CurrentRank-1];
+        CurrentRank = CurrentRank + 1
+        if (CurrentRank == 2) {
+            Role = "Trooper";
+        } else if (CurrentRank == 3) {
+            Role = "Corporal";
+        } else if (CurrentRank == 4) {
+            Role = "Sergeant";
+        } else if (CurrentRank == 5) {
+            Role = "Staff Sergeant";
+        } else if (CurrentRank == 6) {
+            Role = "Lieutenant";
+        } else if (CurrentRank == 7) {
+            Role = "Colonel";
+        } else if (CurrentRank == 8) {
+            Role = "General";
+        }
+       
+    }
+    fs.writeFile("./prestige.json", JSON.stringify(Prestige), (err) => {
+        if (err) message.author.send(err);
+    });
     if (message.author.username != BotUsername) {
-        if(message.channel.name == "cross-communication") {
-            console.log(message.channel);
+        if(message.channel.name == "add-prestige" && message.member.roles.has(allowedRole2) && message.content.startsWith(PREFIX + "add")) {
+            let searchwords = message.content.split(/\s+/g).slice(1);
+            let PrestigeAdd = math.floor();
+        } else if (message.content.startsWith(PREFIX + "cp")) {
+            let Perchantage = CurrentPrestige/NextLevel;
+            if (Perchantage >= 1) {
+                Perchantage == 1
+            }
+            Perchantage = Math.floor(Perchantage * 10);
+            let Bar;
+            for (i = 1; i <= 10; i++) {
+                if (i <= Perchantage) {
+                    Bar = `${Bar}` + `${FilledMark}`;
+                } else {
+                    Bar = `${Bar}` + `${EmptyMar}`;
+                }
+            }
+            let PrestigeEmbed = new Discord.RichEmbed()
+            .setAuthor(message.author.username)
+            .setColor(0, 128, 128)
+            .addField("Role", Role, true)
+            .addField("Prestige", Prestige, true)
+            .addFooter(`${NextLevel - Prestige} Prestige until Next Rank: ${Bar}`)
+            message.channel.send(PrestigeEmbed).then(msg => {msg.delete(5000)});
         } else if (message.content.startsWith(PREFIX + "search")) {
             let searchwords = message.content.split(/\s+/g).slice(1);
             searchwords.join(' + ');
