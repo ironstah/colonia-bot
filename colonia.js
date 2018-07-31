@@ -7,7 +7,7 @@ var groupId = 2736265;
 
 
 CorsairianBot.on('message', (message) => {{
-    var BotUsername = "Avatar Of Mesaphitus"
+    var BotUsername = "Avatar Of Mesaphitus";
     if (message.author.username != BotUsername) {
         if(message.channel.name == "cross-communication") {
             console.log(message.channel);
