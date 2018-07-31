@@ -9,6 +9,7 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
+    let allowedRole = message.guild.roles.find("name", "[-] Moderator");
     if (message.author.username != BotUsername) {
         if(message.channel.name == "cross-communication") {
             console.log(message.channel);
@@ -27,15 +28,15 @@ CorsairianBot.on('message', (message) => {{
             const args = message.content.split(/\s+/g).slice(1);
             i = 0;
             message.channel.send(args.join(" "));
-        } else if (message.content.startsWith(PREFIX + "kick") && message.member.roles.has(message.guild.roles.find("name", "[L1] Moderator"))) { //Admin Section
+        } else if (message.content.startsWith(PREFIX + "kick") && message.member.roles.has(allowedRole.id)) { //Admin Section
             let member = message.mentions.members.first();
             member.kick();
             message.channel.send("Member has been kicked.");
-        } else if (message.content.startsWith(PREFIX + "ban") && message.member.roles.has(message.guild.roles.find("name", "[L1] Moderator"))) {
+        } else if (message.content.startsWith(PREFIX + "ban") && message.member.roles.has(allowedRole.id)) {
             let member = message.mentions.members.first();
             member.ban();
             message.channel.send("Member has been banned.");
-        } else if (message.content.startsWith(PREFIX + "purge") && message.member.roles.has(message.guild.roles.find("name", "[L1] Moderator"))) {
+        } else if (message.content.startsWith(PREFIX + "purge") && message.member.roles.has(allowedRole.id)) {
             const args = message.content.split(/\s+/g).slice(1);
             let messagecount = parseInt(args[0]);
             message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
