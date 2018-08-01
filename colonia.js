@@ -10,6 +10,7 @@ var servers = {};
 var groupId = 2736265;
 
 CorsairianBot.login(process.env.BOT_TOKEN);
+var ROBLOXPassword = process.env.BOT_TOKEN;
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
