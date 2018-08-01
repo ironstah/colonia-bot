@@ -18,7 +18,7 @@ CorsairianBot.on('message', (message) => {{
     let PrestigeAdd = Math.floor(Math.random() * 2);
     NextLevel = [
         50, --Trooper
-        200, --Corporal: 
+        200, --Corporal 
         500, --Sergeant
         500, --StaffSergeant
         700, --Lieutenant
@@ -31,7 +31,7 @@ CorsairianBot.on('message', (message) => {{
             Points: 0,
             Role: "Recruit",
             Rank: 1,
-            NextLevel: NextLevel[0],
+            NextLevel: NextLevel[0]
         }
     }  
     let CurrentPrestige = Prestige[message.author.id].Points;
