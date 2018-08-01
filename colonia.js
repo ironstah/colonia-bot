@@ -16,15 +16,15 @@ CorsairianBot.on('message', (message) => {{
     let allowedRole = message.guild.roles.find("name", "[-] Moderator Role");
     let allowedRole2 = message.guild.roles.find("name", "[-] Officer Role");
     let PrestigeAdd = Math.floor(Math.random() * 2);
-    NextLevel = {
-        Trooper: 50,
-        Corporal: 200,
-        Sergeant: 500,
-        StaffSergeant: 500,
-        Lieutenant: 700,
-        Colonel: 1200,
-        General: 1600,
-    }
+    NextLevel = [
+        50, --Trooper
+        200, --Corporal: 
+        500, --Sergeant
+        500, --StaffSergeant
+        700, --Lieutenant
+        1200, --Colonel
+        1600 --General
+    ];
     
     if(!Prestige[message.author.id]) {
         Prestige[message.author.id] = {
@@ -43,7 +43,7 @@ CorsairianBot.on('message', (message) => {{
 
     if (CurrentPrestige >= NextLevel) {
         message.channel.send(`${message.author.username} have been promoted.`);
-        NextLevel = NextLevel[CurrentRank-1];
+        NextLevel = NextLevel[CurrentRank+1];
         CurrentRank = CurrentRank + 1
         if (CurrentRank == 2) {
             Role = "Trooper";
@@ -62,9 +62,7 @@ CorsairianBot.on('message', (message) => {{
         }
        
     }
-    fs.writeFile("./prestige.json", JSON.stringify(Prestige), (err) => {
-        if (err) message.author.send(err);
-    });
+    
     if (message.author.username != BotUsername) {
         if(message.channel.name == "add-prestige" && message.member.roles.has(allowedRole2) && message.content.startsWith(PREFIX + "add")) {
             let searchwords = message.content.split(/\s+/g).slice(1);
@@ -192,4 +190,7 @@ CorsairianBot.on('message', (message) => {{
             message.channel.send("Your strength is " + Math.floor(Math.random() * 20) + ". Your dexerity is " + Math.floor(Math.random() * 20) + ". Your constituion is " + Math.floor(Math.random() * 20) + ". Your intelligence is " + Math.floor(Math.random() * 20) +". Your wisdom is " + Math.floor(Math.random() * 20) +". Your charisma is " + Math.floor(Math.random() * 20) +". Your health is " + Math.floor(Math.random() * 100));
         }
     }
+    fs.writeFile("./prestige.json", JSON.stringify(Prestige), (err) => {
+        if (err) console.log(err)
+    });
 }})
