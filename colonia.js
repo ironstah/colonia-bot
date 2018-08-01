@@ -34,17 +34,17 @@ CorsairianBot.on('message', (message) => {{
             NextLevel: NextLevel[0],
         }
     }  
-    let CurrentPrestige = Prestige[message.author.id].Points
-    let CurrentRank = Prestige[message.author.id].Rank
-    let NextLevel = Prestige[message.author.id].NextLevel
-    let Role = Prestige[message.author.id].Role
+    let CurrentPrestige = Prestige[message.author.id].Points;
+    let CurrentRank = Prestige[message.author.id].Rank;
+    let NextLevel = Prestige[message.author.id].NextLevel;
+    let Role = Prestige[message.author.id].Role;
 
     CurrentPrestige = CurrentPrestige + PrestigeAdd;
 
     if (CurrentPrestige >= NextLevel) {
         message.channel.send(`${message.author.username} have been promoted.`);
         NextLevel = NextLevel[CurrentRank+1];
-        CurrentRank = CurrentRank + 1
+        CurrentRank = CurrentRank + 1;
         if (CurrentRank == 2) {
             Role = "Trooper";
         } else if (CurrentRank == 3) {
@@ -78,7 +78,7 @@ CorsairianBot.on('message', (message) => {{
                 if (i <= Perchantage) {
                     Bar = `${Bar}` + `${FilledMark}`;
                 } else {
-                    Bar = `${Bar}` + `${EmptyMar}`;
+                    Bar = `${Bar}` + `${EmptyMark}`;
                 }
             }
             let PrestigeEmbed = new Discord.RichEmbed()
@@ -86,7 +86,7 @@ CorsairianBot.on('message', (message) => {{
             .setColor(0, 128, 128)
             .addField("Role", Role, true)
             .addField("Prestige", Prestige, true)
-            .addFooter(`${NextLevel - Prestige} Prestige until Next Rank: ${Bar}`)
+            .addFooter(`${NextLevel - Prestige} Prestige until Next Rank: ${Bar}`);
             message.channel.send(PrestigeEmbed).then(msg => {msg.delete(5000)});
         } else if (message.content.startsWith(PREFIX + "search")) {
             let searchwords = message.content.split(/\s+/g).slice(1);
