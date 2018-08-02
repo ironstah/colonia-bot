@@ -1,93 +1,254 @@
 const Discord = require('discord.js');
-const Prestige = require(`./prestige.json`);
+const VerificationJSON = `./VerificationCode.json`;
+const PrestigeJSON = `./prestige.json`;
+let Prestige = require(PrestigeJSON);
+let Code = require(VerificationJSON);
 const CorsairianBot = new Discord.Client();
-const EmptyMark = client.emojis.find("name", "black_circle");
-const FilledMark = client.emojis.find("name", "JustAnotherDayCUImage");
+
+
 const PREFIX = '!';
 const fs = require('fs');
+
 //const YTDL = require("ytdl-core");
+var roblox = require("roblox-js");
 var servers = {};
 var groupId = 2736265;
+var maxrank = 7;
 
-CorsairianBot.login(process.env.BOT_TOKEN);
+CorsairianBot.login(`NDc0MDA4NDUyNjQ2MzA1ODMy.DkKPNg.MybVMIDkxsekZv8qDE4c2qbga_U`);
+//CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-    let allowedRole = message.guild.roles.find("name", "[-] Moderator Role");
-    let allowedRole2 = message.guild.roles.find("name", "[-] Officer Role");
-    let PrestigeAdd = Math.floor(Math.random() * 2);
-    NextLevel = [
-        50, //Trooper
-        200, //Corporal 
-        500, //Sergeant
-        500, //StaffSergeant
-        700, //Lieutenant
-        1200, //Colonel
-        1600 //General
-    ];
+    let PrestigeAdd = Math.floor(1 + Math.random() * 3);
+    var NextLevelArray = [100, 300, 700, 1000, 3000, 9999999999];
+    //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
+
     
-    if(!Prestige[message.author.id]) {
-        Prestige[message.author.id] = {
-            Points: 0,
-            Role: "Recruit",
-            Rank: 1,
-            NextLevel: NextLevel[0]
+    if (message.content.startsWith("!verify")) { 
+        Code[message.author.username] = {
+            ID: message.author.id,
+            Code: `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}`
         }
-    }  
-    let CurrentPrestige = Prestige[message.author.id].Points;
-    let CurrentRank = Prestige[message.author.id].Rank;
-    let NextLevel = Prestige[message.author.id].NextLevel;
-    let Role = Prestige[message.author.id].Role;
-
-    CurrentPrestige = CurrentPrestige + PrestigeAdd;
-
-    if (CurrentPrestige >= NextLevel) {
-        message.channel.send(`${message.author.username} have been promoted.`);
-        NextLevel = NextLevel[CurrentRank+1];
-        CurrentRank = CurrentRank + 1;
-        if (CurrentRank == 2) {
-            Role = "Trooper";
-        } else if (CurrentRank == 3) {
-            Role = "Corporal";
-        } else if (CurrentRank == 4) {
-            Role = "Sergeant";
-        } else if (CurrentRank == 5) {
-            Role = "Staff Sergeant";
-        } else if (CurrentRank == 6) {
-            Role = "Lieutenant";
-        } else if (CurrentRank == 7) {
-            Role = "Colonel";
-        } else if (CurrentRank == 8) {
-            Role = "General";
-        }
+        fs.writeFile(VerificationJSON, JSON.stringify(Code), (err) => {
+            if (err) console.log(err)
+        });
+        message.author.send(`Here's your verification code: ${Code[message.author.username].Code}`);
        
-    }
-    
-    if (message.author.username != BotUsername) {
-        if(message.channel.name == "add-prestige" && message.member.roles.has(allowedRole2) && message.content.startsWith(PREFIX + "add")) {
-            let searchwords = message.content.split(/\s+/g).slice(1);
-            let PrestigeAdd = math.floor();
+    } else if (message.author.username == "Verification Bot") {
+        const args = message.content.split(/\s+/g).slice(1);
+        let VerificationCode = args[2];
+        let RBLXUsername = message.content.replace(/ .*/,'');
+        var results = fs.readFileSync(VerificationJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].Code == VerificationCode) {
+                 Prestige[parsedResults[i].ID] = {
+                    Points: 0,
+                    Role: "Recruit",
+                    ROBLOXUsername: RBLXUsername,
+                    Rank: 1,
+                    NextLevel: NextLevelArray[0],
+                    Warnings: 0,
+                    Bans: 0,
+                    Kicks: 0,
+                }
+                
+                CorsairianBot.channels.get(`459448454008274946`).send(`${RBLXUsername} has been verified. Type !confirm to get your role.`);
+                message.guild.members.get(`${parsedResults[i].ID}`).setNickname(`[E1] ${RBLXUsername}`);
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
+    } else if (message.author.username != BotUsername && Prestige[message.author.id]) {
+        var allowedRole = message.guild.roles.find("name", `[-] Moderator Role`);
+        var role = message.guild.roles.find("name", "[-] Member Role");
+
+        var CurrentPrestige = Prestige[message.author.id].Points;
+        var CurrentRank = Prestige[message.author.id].Rank;
+        var NextLevel = Prestige[message.author.id].NextLevel;
+        var Role = Prestige[message.author.id].Role;
+        
+        Prestige[message.author.id].Points = CurrentPrestige + PrestigeAdd;
+        //console.log(Prestige[message.author.id].Rank);
+
+        if (CurrentPrestige >= NextLevel && CurrentPrestige <= 999999) {
+            var RBLXUsername = Prestige[message.author.id].RBLXUsername;
+
+            Prestige[message.author.id].NextLevel = NextLevelArray[Prestige[message.author.id].Rank];
+            Prestige[message.author.id].Rank = Prestige[message.author.id].Rank + 1;    
+            let CurrentRank = Prestige[message.author.id].Rank;
+            if (CurrentRank != 5) {
+                let username = Prestige[message.author.id].ROBLOXUsername;
+                roblox.login({username: "MesaphitusIncarnate", password: "selandak"}).then((success) => {
+
+                }).catch(() => {console.log("Failed to login.");});
+                
+                if (username){
+                    message.channel.send(`Checking ROBLOX for ${username}`)
+                    roblox.getIdFromUsername(username)
+                    
+                    .then(function(id){
+                        roblox.getRankInGroup(groupId, id)
+                        .then(function(rank){
+                            if(maxrank <= rank){
+                                CorsairianBot.channels.get(`474059084753010718`).send(`${id} is rank ${rank} and not promotable.`);
+                            } else {
+                                CorsairianBot.channels.get(`474059084753010718`).send(`${id} is rank ${rank} and promotable.`);
+                                roblox.promote(groupId, id)
+                                .then(function(roles){
+                                    message.channel.send(`Promoted from ${roles.oldRole.Name} to ${roles.newRole.Name}`);
+                                }).catch(function(err){
+                                    message.channel.send("Failed to promote.");
+                                });
+                            }
+                        }).catch(function(err){
+                            CorsairianBot.channels.get(`474059084753010718`).send("Couldn't get player in the group.");
+                        });
+                    }).catch(function(err){ 
+                        CorsairianBot.channels.get(`474059084753010718`).send(`Sorry, but ${username} doesn't exist on ROBLOX.`);
+                    });
+                } else {
+                    CorsairianBot.channels.get(`474059084753010718`).send("Failed to promote.");
+                }
+            }
+            
+
+            if (CurrentRank == 2) {
+                Prestige[message.author.id].Role = "Trooper";
+                message.guild.members.get(message.author.id).setNickname(`[E2] ${RBLXUsername}`);
+            } else if (CurrentRank == 3) {
+                Prestige[message.author.id].Role = "Corporal";
+                message.guild.members.get(message.author.id).setNickname(`[E3] ${RBLXUsername}`);
+            } else if (CurrentRank == 4) {
+                Prestige[message.author.id].Role = "Sergeant";
+                message.guild.members.get(message.author.id).setNickname(`[E4] ${RBLXUsername}`);
+            } else if (CurrentRank == 5) {
+                Prestige[message.author.id].Role = "Staff Sergeant";
+                message.guild.members.get(message.author.id).setNickname(`[E5] ${RBLXUsername}`);
+            } else if (CurrentRank == 6) {
+                Prestige[message.author.id].Role = "Warrant Sergeant";
+                message.guild.members.get(message.author.id).setNickname(`[W] ${RBLXUsername}`);
+            }
+        }
+
+        if(message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-prestige")) {
+            let args = message.content.split(/\s+/g).slice(1);
+            let name = args[0];
+            let add = args[1];
+            var results = fs.readFileSync(PrestigeJSON, 'utf8');
+            var parsedResults = JSON.parse(results);
+            for ( var i in parsedResults ) {
+                if (parsedResults[i].ROBLOXUsername == name) {
+                    message.channel.send("Added Prestige"); 
+                    Prestige[i].Points = Prestige[i].Points + parseInt(add)
+
+                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                        if (err) console.log(err)
+                    });
+                }
+            }
+        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-warnings")) {
+            let args = message.content.split(/\s+/g).slice(1);
+            let name = args[0];
+            let add = args[1];
+            var results = fs.readFileSync(PrestigeJSON, 'utf8');
+            var parsedResults = JSON.parse(results);
+            for ( var i in parsedResults ) {
+                if (parsedResults[i].ROBLOXUsername == name) {
+                    message.channel.send("Added Warnings."); 
+                    Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add)
+
+                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                        if (err) console.log(err)
+                    });
+                }
+            }
+        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-kicks")) {
+            let args = message.content.split(/\s+/g).slice(1);
+            let name = args[0];
+            let add = args[1];
+            var results = fs.readFileSync(PrestigeJSON, 'utf8');
+            var parsedResults = JSON.parse(results);
+            for ( var i in parsedResults ) {
+                if (parsedResults[i].ROBLOXUsername == name) {
+                    message.channel.send("Added Kicks."); 
+                    Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add)
+
+                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                        if (err) console.log(err)
+                    });
+                }
+            }
+        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-bans")) {
+            let args = message.content.split(/\s+/g).slice(1);
+            let name = args[0];
+            let add = args[1];
+            var results = fs.readFileSync(PrestigeJSON, 'utf8');
+            var parsedResults = JSON.parse(results);
+            for ( var i in parsedResults ) {
+                if (parsedResults[i].ROBLOXUsername == name) {
+                    message.channel.send("Added Bans."); 
+                    Prestige[i].Bans = Prestige[i].Bans + parseInt(add)
+
+                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                        if (err) console.log(err)
+                    });
+                }
+            }
+        } else if (message.content.startsWith(PREFIX + "confirm") && message.channel.name == "verify") {
+            let member = message.member;
+            member.addRole(role).catch(console.error);
         } else if (message.content.startsWith(PREFIX + "cp")) {
             let Perchantage = CurrentPrestige/NextLevel;
             if (Perchantage >= 1) {
                 Perchantage == 1
             }
             Perchantage = Math.floor(Perchantage * 10);
-            let Bar;
+            let Bar = "";
             for (i = 1; i <= 10; i++) {
                 if (i <= Perchantage) {
-                    Bar = `${Bar}` + `${FilledMark}`;
+                    Bar = `${Bar}` + `\:white_circle:`;
                 } else {
-                    Bar = `${Bar}` + `${EmptyMark}`;
+                    Bar = `${Bar}` + `\:black_circle:`;
                 }
             }
-            let PrestigeEmbed = new Discord.RichEmbed()
-            .setAuthor(message.author.username)
-            .setColor(0, 128, 128)
-            .addField("Role", Role, true)
-            .addField("Prestige", Prestige, true)
-            .addFooter(`${NextLevel - Prestige} Prestige until Next Rank: ${Bar}`);
-            message.channel.send(PrestigeEmbed).then(msg => {msg.delete(5000)});
+
+            message.channel.send({embed: {
+                color: 0x008080,
+                author: {
+                  name: Prestige[message.author.id].ROBLOXUsername,
+                  icon_url: message.author.avatarURL
+                },
+                title: `${Role}`,
+                fields: [{
+                    name: `**PRESTIGE: ${CurrentPrestige}**`,
+                    value: `${NextLevel - CurrentPrestige} Prestige until Next Rank: ${Bar}`
+                  },
+                  {
+                    name: "**WARNINGS**",
+                    value: `${Prestige[message.author.id].Warnings}`,
+                    inline: true
+                  },
+                  {
+                    name: "**KICKS**",
+                    value: `${Prestige[message.author.id].Kicks}`,
+                    inline: true
+                  },
+                  {
+                    name: "**BANS**",
+                    value: `${Prestige[message.author.id].Bans}`,
+                    inline: true
+                  },
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: CorsairianBot.user.avatarURL,
+                  text: "Database II Integrated"
+                }
+              }
+            });
         } else if (message.content.startsWith(PREFIX + "search")) {
             let searchwords = message.content.split(/\s+/g).slice(1);
             searchwords.join(' + ');
@@ -189,8 +350,10 @@ CorsairianBot.on('message', (message) => {{
         } else if (message.content.startsWith(PREFIX + "newstats")) {
             message.channel.send("Your strength is " + Math.floor(Math.random() * 20) + ". Your dexerity is " + Math.floor(Math.random() * 20) + ". Your constituion is " + Math.floor(Math.random() * 20) + ". Your intelligence is " + Math.floor(Math.random() * 20) +". Your wisdom is " + Math.floor(Math.random() * 20) +". Your charisma is " + Math.floor(Math.random() * 20) +". Your health is " + Math.floor(Math.random() * 100));
         }
+
+        fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+            if (err) console.log(err)
+        });
     }
-    fs.writeFile("./prestige.json", JSON.stringify(Prestige), (err) => {
-        if (err) console.log(err)
-    });
+   
 }})
