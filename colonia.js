@@ -61,6 +61,18 @@ CorsairianBot.on('message', (message) => {{
                 });
             }
         }
+    } else if (message.author.username == "Advancement Bot") {
+        let RBLXUsername = message.content.replace(/ .*/,'');
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == RBLXUsername) {
+                parsedResults[i].Points = 100;
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
     } else if (message.author.username != BotUsername && Prestige[message.author.id]) {
         var allowedRole = message.guild.roles.find("name", `[-] Moderator Role`);
         var role = message.guild.roles.find("name", "[-] Member Role");
