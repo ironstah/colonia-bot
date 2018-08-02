@@ -15,8 +15,8 @@ var servers = {};
 var groupId = 2736265;
 var maxrank = 7;
 
-CorsairianBot.login(`NDc0MDA4NDUyNjQ2MzA1ODMy.DkKPNg.MybVMIDkxsekZv8qDE4c2qbga_U`);
-//CorsairianBot.login(process.env.BOT_TOKEN);
+
+CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
