@@ -24,7 +24,7 @@ CorsairianBot.on('message', (message) => {{
     var NextLevelArray = [100, 300, 700, 1000, 3000, 9999999999];
     //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
 
-    //Ready1
+    //Ready for action!
     if (message.content.startsWith("!verify")) { 
         Code[message.author.username] = {
             ID: message.author.id,
