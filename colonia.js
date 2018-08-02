@@ -20,7 +20,7 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-    let PrestigeAdd = Math.floor(1 + Math.random() * 3);
+    let PrestigeAdd = Math.floor(Math.random() * 1);
     var NextLevelArray = [100, 300, 700, 1000, 3000, 9999999999];
     //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
 
@@ -68,6 +68,71 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == RBLXUsername) {
                 parsedResults[i].Points = 100;
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
+    }
+    if(message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-prestige")) {
+        let args = message.content.split(/\s+/g).slice(1);
+        let name = args[0];
+        let add = args[1];
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == name) {
+                message.channel.send("Added Prestige"); 
+                Prestige[i].Points = Prestige[i].Points + parseInt(add)
+
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
+    } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-warnings")) {
+        let args = message.content.split(/\s+/g).slice(1);
+        let name = args[0];
+        let add = args[1];
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == name) {
+                message.channel.send("Added Warnings."); 
+                Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add)
+
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
+    } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-kicks")) {
+        let args = message.content.split(/\s+/g).slice(1);
+        let name = args[0];
+        let add = args[1];
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == name) {
+                message.channel.send("Added Kicks."); 
+                Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add)
+
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) console.log(err)
+                });
+            }
+        }
+    } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-bans")) {
+        let args = message.content.split(/\s+/g).slice(1);
+        let name = args[0];
+        let add = args[1];
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == name) {
+                message.channel.send("Added Bans."); 
+                Prestige[i].Bans = Prestige[i].Bans + parseInt(add)
+
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
                     if (err) console.log(err)
                 });
@@ -142,72 +207,6 @@ CorsairianBot.on('message', (message) => {{
             } else if (CurrentRank == 6) {
                 Prestige[message.author.id].Role = "Warrant Sergeant";
                 message.guild.members.get(message.author.id).setNickname(`[W] ${RBLXUsername}`);
-            }
-        }
-
-        if(message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-prestige")) {
-            let args = message.content.split(/\s+/g).slice(1);
-            let name = args[0];
-            let add = args[1];
-            var results = fs.readFileSync(PrestigeJSON, 'utf8');
-            var parsedResults = JSON.parse(results);
-            for ( var i in parsedResults ) {
-                if (parsedResults[i].ROBLOXUsername == name) {
-                    message.channel.send("Added Prestige"); 
-                    Prestige[i].Points = Prestige[i].Points + parseInt(add)
-
-                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                        if (err) console.log(err)
-                    });
-                }
-            }
-        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-warnings")) {
-            let args = message.content.split(/\s+/g).slice(1);
-            let name = args[0];
-            let add = args[1];
-            var results = fs.readFileSync(PrestigeJSON, 'utf8');
-            var parsedResults = JSON.parse(results);
-            for ( var i in parsedResults ) {
-                if (parsedResults[i].ROBLOXUsername == name) {
-                    message.channel.send("Added Warnings."); 
-                    Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add)
-
-                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                        if (err) console.log(err)
-                    });
-                }
-            }
-        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-kicks")) {
-            let args = message.content.split(/\s+/g).slice(1);
-            let name = args[0];
-            let add = args[1];
-            var results = fs.readFileSync(PrestigeJSON, 'utf8');
-            var parsedResults = JSON.parse(results);
-            for ( var i in parsedResults ) {
-                if (parsedResults[i].ROBLOXUsername == name) {
-                    message.channel.send("Added Kicks."); 
-                    Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add)
-
-                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                        if (err) console.log(err)
-                    });
-                }
-            }
-        } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-bans")) {
-            let args = message.content.split(/\s+/g).slice(1);
-            let name = args[0];
-            let add = args[1];
-            var results = fs.readFileSync(PrestigeJSON, 'utf8');
-            var parsedResults = JSON.parse(results);
-            for ( var i in parsedResults ) {
-                if (parsedResults[i].ROBLOXUsername == name) {
-                    message.channel.send("Added Bans."); 
-                    Prestige[i].Bans = Prestige[i].Bans + parseInt(add)
-
-                    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                        if (err) console.log(err)
-                    });
-                }
             }
         } else if (message.content.startsWith(PREFIX + "confirm") && message.channel.name == "verify") {
             let member = message.member;
