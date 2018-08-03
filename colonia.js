@@ -273,7 +273,7 @@ CorsairianBot.on('message', (message) => {{
             let CurrentRank = Prestige[message.author.id].Rank;
             if (CurrentRank != 5) {
                 let username = Prestige[message.author.id].ROBLOXUsername;
-                roblox.login({username: "MesaphitusIncarnate", password: "selandak"}).then((success) => {
+                roblox.login({username: "MesaphitusIncarnate", password: process.env.ROBLOXPASS}).then((success) => {
 
                 }).catch(() => {console.log("Failed to login.");});
                 
