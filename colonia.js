@@ -25,6 +25,17 @@ CorsairianBot.on('message', (message) => {{
     //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
 
     //Ready for action!
+    
+    if (cooldown.has(message.author.id)) {
+        message.delete();
+        return message.reply("You're starting to spam. Refrain from doing so.");
+    }
+    cooldown.add(message.author.id);
+
+    setTimeout(() => {
+        cooldown.delete(message.author.id) 
+    }, cdsec)
+    
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
     var allowedRole = guild.roles.find("name", "[-] Moderator Role");
     var role = guild.roles.find("name", "[-] Member Role");
