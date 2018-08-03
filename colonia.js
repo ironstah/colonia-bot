@@ -15,6 +15,8 @@ var servers = {};
 var groupId = 2736265;
 var maxrank = 7;
 
+var cooldown = new Set();
+var cdsec = 5;
 
 CorsairianBot.login(process.env.BOT_TOKEN);
 
