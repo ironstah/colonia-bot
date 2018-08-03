@@ -25,7 +25,8 @@ CorsairianBot.on('message', (message) => {{
     //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
 
     //Ready for action!
-    var allowedRole = message.guild.roles.find("name", `[-] Moderator Role`);
+    var guild = CorsairianBot.guilds.get(`459442373517115392`);
+    var allowedRole = guild.roles.find("name", `[-] Moderator Role`);
     var role = message.guild.roles.find("name", "[-] Member Role");
     if (message.content.startsWith("!verify")) { 
         Code[message.author.username] = {
