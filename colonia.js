@@ -48,7 +48,7 @@ CorsairianBot.on('message', (message) => {{
         }
         fs.writeFile(VerificationJSON, JSON.stringify(Code), (err) => {
             if (err) console.log(err)
-        .catch(() => {console.log("Failed to log."));}});
+        });
         message.author.send(`Here's your verification code: ${Code[message.author.username].Code} \nType Use the code by going to: https://www.roblox.com/games/2108162131/Verification-Center-VERIFY#!/about`);
        
     } else if (message.author.username == "Verification Bot") {
@@ -73,9 +73,6 @@ CorsairianBot.on('message', (message) => {{
                 CorsairianBot.channels.get(`459448454008274946`).send(`${RBLXUsername} has been verified. Type !confirm to get your role.`);
                 message.guild.members.get(`${parsedResults[i].ID}`).setNickname(`[E1] ${RBLXUsername}`);
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -88,9 +85,6 @@ CorsairianBot.on('message', (message) => {{
             if (parsedResults[i].ROBLOXUsername == RBLXUsername) {
                 parsedResults[i].Points = 100;
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -210,9 +204,6 @@ CorsairianBot.on('message', (message) => {{
                 Prestige[i].Points = Prestige[i].Points + parseInt(add)
 
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -229,9 +220,6 @@ CorsairianBot.on('message', (message) => {{
                 Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add)
 
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -248,9 +236,6 @@ CorsairianBot.on('message', (message) => {{
                 Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add)
 
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -267,9 +252,6 @@ CorsairianBot.on('message', (message) => {{
                 Prestige[i].Bans = Prestige[i].Bans + parseInt(add)
 
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    .catch( reason => {
-                        console.log("Reason for catching: " + reason);
-                    })
                     if (err) console.log(err)
                 });
             }
@@ -396,9 +378,6 @@ CorsairianBot.on('message', (message) => {{
         } 
         
         fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-            .catch( reason => {
-                console.log("Reason for catching: " + reason);
-            })
             if (err) console.log(err)
         });
     }
