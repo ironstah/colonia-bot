@@ -48,7 +48,7 @@ CorsairianBot.on('message', (message) => {{
         }
         fs.writeFile(VerificationJSON, JSON.stringify(Code), (err) => {
             if (err) console.log(err)
-        .catch(() => {console.log("Failed to log.");});
+        .catch(() => {console.log("Failed to log.");}));
         message.author.send(`Here's your verification code: ${Code[message.author.username].Code} \nType Use the code by going to: https://www.roblox.com/games/2108162131/Verification-Center-VERIFY#!/about`);
        
     } else if (message.author.username == "Verification Bot") {
