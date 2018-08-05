@@ -203,7 +203,7 @@ CorsairianBot.on('message', (message) => {{
         var parsedResults = JSON.parse(results);
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == name) {
-                message.channel.send("Added Prestige"); 
+                message.channel.send("Added Prestige."); 
                 Prestige[i].Points = Prestige[i].Points + parseInt(add)
 
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
@@ -263,6 +263,74 @@ CorsairianBot.on('message', (message) => {{
                 });
             }
         }
+    } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "demote")) {
+        let args = message.content.split(/\s+/g).slice(1);
+        let name = args[0];
+        let add = args[1];
+        var results = fs.readFileSync(PrestigeJSON, 'utf8');
+        var parsedResults = JSON.parse(results);
+        for ( var i in parsedResults ) {
+            if (parsedResults[i].ROBLOXUsername == name && parsedResults[i].Rank != 1) {
+                message.channel.send("Demoting..."); 
+                let username = parsedResults[i].ROBLOXUsername;
+                roblox.login({username: "MesaphitusIncarnate", password: process.env.ROBLOXPASS}).then((success) => {
+
+                }).catch(() => {console.log("Failed to login.");});
+                
+                if (username){
+                    message.channel.send(`Checking ROBLOX for ${username}`)
+                    roblox.getIdFromUsername(username)
+                    
+                    .then(function(id){
+                        roblox.getRankInGroup(groupId, id)
+                        .then(function(rank){
+                            if(maxrank <= rank){
+                                CorsairianBot.channels.get(`474059084753010718`).send(`${id} is rank ${rank} and not demotable.`);
+                            } else {
+                                CorsairianBot.channels.get(`474059084753010718`).send(`${id} is rank ${rank} and demotable.`);
+                                roblox.demote(groupId, id)
+                                .then(function(roles){
+                                    message.channel.send(`Promoted from ${roles.oldRole.Name} to ${roles.newRole.Name}`);
+                                }).catch(function(err){
+                                    message.channel.send("Failed to demote.");
+                                });
+                            }
+                        }).catch(function(err){
+                            CorsairianBot.channels.get(`474059084753010718`).send("Couldn't get player in the group.");
+                        });
+                    }).catch(function(err){ 
+                        CorsairianBot.channels.get(`474059084753010718`).send(`Sorry, but ${username} doesn't exist on ROBLOX.`);
+                    });
+                } else {
+                    CorsairianBot.channels.get(`474059084753010718`).send("Failed to demote.");
+                }
+                parsedResults[i].Rank = parsedResults[i].Rank - 1;
+                var CurrentRank = parsedResults[i].Rank;
+                parsedResults[i].Prestige = NextLevel[CurrentRank];
+                parsedResults[i].NextLevel = NextLevel[CurrentRank + 1];
+                if (CurrentRank == 1) {
+                    Prestige[message.author.id].Role = "Recruit";
+                    message.guild.members.get(message.author.id).setNickname(`[E1] ${Prestige[message.author.id].ROBLOXUsername}`);
+                } else if (CurrentRank == 2) {
+                    Prestige[message.author.id].Role = "Trooper";
+                    message.guild.members.get(message.author.id).setNickname(`[E2] ${Prestige[message.author.id].ROBLOXUsername}`);
+                } else if (CurrentRank == 3) {
+                    Prestige[message.author.id].Role = "Corporal";
+                    message.guild.members.get(message.author.id).setNickname(`[E3] ${Prestige[message.author.id].ROBLOXUsername}`);
+                } else if (CurrentRank == 4) {
+                    Prestige[message.author.id].Role = "Sergeant";
+                    message.guild.members.get(message.author.id).setNickname(`[E4] ${Prestige[message.author.id].ROBLOXUsername}`);
+                } else if (CurrentRank == 5) {
+                    Prestige[message.author.id].Role = "Staff  Sergeant";
+                    message.guild.members.get(message.author.id).setNickname(`[E5] ${Prestige[message.author.id].ROBLOXUsername}`);
+                }
+    
+                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+                    if (err) throw err;
+                    console.log(err)
+                });
+            }
+        }
     } else if (message.author.username != BotUsername && Prestige[message.author.id]) {
         var CurrentPrestige = Prestige[message.author.id].Points;
         var CurrentRank = Prestige[message.author.id].Rank;
@@ -316,19 +384,19 @@ CorsairianBot.on('message', (message) => {{
 
             if (CurrentRank == 2) {
                 Prestige[message.author.id].Role = "Trooper";
-                message.guild.members.get(message.author.id).setNickname(`[E2] ${RBLXUsername}`);
+                message.guild.members.get(message.author.id).setNickname(`[E2] ${Prestige[message.author.id].ROBLOXUsername}`);
             } else if (CurrentRank == 3) {
                 Prestige[message.author.id].Role = "Corporal";
-                message.guild.members.get(message.author.id).setNickname(`[E3] ${RBLXUsername}`);
+                message.guild.members.get(message.author.id).setNickname(`[E3] ${Prestige[message.author.id].ROBLOXUsername}`);
             } else if (CurrentRank == 4) {
                 Prestige[message.author.id].Role = "Sergeant";
-                message.guild.members.get(message.author.id).setNickname(`[E4] ${RBLXUsername}`);
+                message.guild.members.get(message.author.id).setNickname(`[E4] ${Prestige[message.author.id].ROBLOXUsername}`);
             } else if (CurrentRank == 5) {
                 Prestige[message.author.id].Role = "Staff Sergeant";
-                message.guild.members.get(message.author.id).setNickname(`[E5] ${RBLXUsername}`);
+                message.guild.members.get(message.author.id).setNickname(`[E5] ${Prestige[message.author.id].ROBLOXUsername}`);
             } else if (CurrentRank == 6) {
                 Prestige[message.author.id].Role = "Warrant Sergeant";
-                message.guild.members.get(message.author.id).setNickname(`[W] ${RBLXUsername}`);
+                message.guild.members.get(message.author.id).setNickname(`[W] ${Prestige[message.author.id].ROBLOXUsername}`);
             }
         } else if (message.content.startsWith(PREFIX + "confirm") && message.channel.name == "verify") {
             let member = message.member;
