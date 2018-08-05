@@ -266,7 +266,6 @@ CorsairianBot.on('message', (message) => {{
     } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "demote")) {
         let args = message.content.split(/\s+/g).slice(1);
         let name = args[0];
-        let add = args[1];
         var results = fs.readFileSync(PrestigeJSON, 'utf8');
         var parsedResults = JSON.parse(results);
         for ( var i in parsedResults ) {
