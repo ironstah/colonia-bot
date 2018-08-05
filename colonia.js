@@ -305,8 +305,9 @@ CorsairianBot.on('message', (message) => {{
                 }
                 parsedResults[i].Rank = parsedResults[i].Rank - 1;
                 var CurrentRank = parsedResults[i].Rank;
-                parsedResults[i].Prestige = NextLevel[parsedResults[i].Rank];
-                parsedResults[i].NextLevel = NextLevel[parsedResults[i].Rank + 1];
+                console.log(CurrentRank);
+                parsedResults[i].Prestige = NextLevel[parseInt(parsedResults[i].Rank)];
+                parsedResults[i].NextLevel = NextLevel[parseInt(parsedResults[i].Rank)] + 1;
                 if (CurrentRank == 1) {
                     Prestige[message.author.id].Role = "Recruit";
                     message.guild.members.get(message.author.id).setNickname(`[E1] ${Prestige[message.author.id].ROBLOXUsername}`);
