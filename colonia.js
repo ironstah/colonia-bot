@@ -314,20 +314,20 @@ CorsairianBot.on('message', (message) => {{
                 
                 parsedResults[i].NextLevel = NextLevelArray[parsedResults[i].Rank];
                 if (CurrentRank == 1) {
-                    Prestige[message.author.id].Role = "Recruit";
-                    message.guild.members.get(message.author.id).setNickname(`[E1] ${Prestige[message.author.id].ROBLOXUsername}`);
+                    parsedResults[i].Role = "Recruit";
+                    message.guild.members.get(parsedResults[i]).setNickname(`[E1] ${parsedResults[i].ROBLOXUsername}`);
                 } else if (CurrentRank == 2) {
-                    Prestige[message.author.id].Role = "Trooper";
-                    message.guild.members.get(message.author.id).setNickname(`[E2] ${Prestige[message.author.id].ROBLOXUsername}`);
+                    parsedResults[i].Role = "Trooper";
+                    message.guild.members.get(parsedResults[i]).setNickname(`[E2] ${parsedResults[i].ROBLOXUsername}`);
                 } else if (CurrentRank == 3) {
-                    Prestige[message.author.id].Role = "Corporal";
-                    message.guild.members.get(message.author.id).setNickname(`[E3] ${Prestige[message.author.id].ROBLOXUsername}`);
+                    parsedResults[i].Role = "Corporal";
+                    message.guild.members.get(message.author.id).setNickname(`[E3] ${parsedResults[i].ROBLOXUsername}`);
                 } else if (CurrentRank == 4) {
-                    Prestige[message.author.id].Role = "Sergeant";
-                    message.guild.members.get(message.author.id).setNickname(`[E4] ${Prestige[message.author.id].ROBLOXUsername}`);
+                    parsedResults[i].Role = "Sergeant";
+                    message.guild.members.get(parsedResults[i]).setNickname(`[E4] ${parsedResults[i].ROBLOXUsername}`);
                 } else if (CurrentRank == 5) {
-                    Prestige[message.author.id].Role = "Staff  Sergeant";
-                    message.guild.members.get(message.author.id).setNickname(`[E5] ${Prestige[message.author.id].ROBLOXUsername}`);
+                    parsedResults[i].Role = "Staff  Sergeant";
+                    message.guild.members.get(parsedResults[i]).setNickname(`[E5] ${parsedResults[i].ROBLOXUsername}`);
                 }
     
                 fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
