@@ -307,9 +307,9 @@ CorsairianBot.on('message', (message) => {{
                 var CurrentRank = parsedResults[i].Rank;
                 console.log(CurrentRank);
                 if (CurrentRank == 1) {
-                    parsedResults[i].Prestige = 0;
+                    parsedResults[i].Points = 0;
                 } else {
-                    parsedResults[i].Prestige = NextLevelArray[CurrentRank-2] + 10;
+                    parsedResults[i].Points = NextLevelArray[CurrentRank-2] + 10;
                 }
                 
                 parsedResults[i].NextLevel = NextLevelArray[parsedResults[i].Rank];
