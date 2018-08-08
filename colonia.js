@@ -28,16 +28,6 @@ CorsairianBot.on('message', (message) => {{
 
     //Ready for action!
     
-    if (cooldown.has(message.author.id)) {
-        message.delete();
-        return message.reply("You're starting to spam. Refrain from doing so.");
-    }
-    cooldown.add(message.author.id);
-
-    setTimeout(() => {
-        cooldown.delete(message.author.id) 
-    }, cdsec)
-    
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
     var allowedRole = guild.roles.find("name", "[-] Moderator Role");
     var role = guild.roles.find("name", "[-] Member Role");
@@ -46,10 +36,6 @@ CorsairianBot.on('message', (message) => {{
             ID: message.author.id,
             Code: `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}` + `${Math.floor(Math.random() * 9)}`
         }
-        fs.writeFile(VerificationJSON, JSON.stringify(Code), (err) => {
-            if (err) throw err;
-            console.log(err)
-        });
         message.author.send(`Here's your verification code: ${Code[message.author.username].Code} \nType Use the code by going to: https://www.roblox.com/games/2108162131/Verification-Center-VERIFY#!/about`);
        
     } else if (message.author.username == "Verification Bot") {
@@ -73,10 +59,6 @@ CorsairianBot.on('message', (message) => {{
                 
                 CorsairianBot.channels.get(`459448454008274946`).send(`${RBLXUsername} has been verified. Type !confirm to get your role.`);
                 message.guild.members.get(`${parsedResults[i].ID}`).setNickname(`[E1] ${RBLXUsername}`);
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
             }
         }
     } else if (message.author.username == "Advancement Bot") {
@@ -86,10 +68,6 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == RBLXUsername) {
                 parsedResults[i].Points = 100;
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
             }
         }
     }
@@ -204,12 +182,7 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == name) {
                 message.channel.send("Added Prestige."); 
-                Prestige[i].Points = Prestige[i].Points + parseInt(add)
-
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
+                Prestige[i].Points = Prestige[i].Points + parseInt(add);
             }
         }
     } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-warnings")) {
@@ -221,12 +194,7 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == name) {
                 message.channel.send("Added Warnings."); 
-                Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add)
-
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
+                Prestige[i].Warnings = Prestige[i].Warnings + parseInt(add);
             }
         }
     } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-kicks")) {
@@ -238,12 +206,7 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == name) {
                 message.channel.send("Added Kicks."); 
-                Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add)
-
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
+                Prestige[i].Kicks = Prestige[i].Kicks + parseInt(add);
             }
         }
     } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "add-bans")) {
@@ -255,12 +218,7 @@ CorsairianBot.on('message', (message) => {{
         for ( var i in parsedResults ) {
             if (parsedResults[i].ROBLOXUsername == name) {
                 message.channel.send("Added Bans."); 
-                Prestige[i].Bans = Prestige[i].Bans + parseInt(add)
-
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
+                Prestige[i].Bans = Prestige[i].Bans + parseInt(add);
             }
         }
     } else if (message.channel.name == "add-data" && message.content.startsWith(PREFIX + "demote")) {
@@ -329,11 +287,6 @@ CorsairianBot.on('message', (message) => {{
                     parsedResults[i].Role = "Staff  Sergeant";
                     message.guild.members.get(i).setNickname(`[E5] ${parsedResults[i].ROBLOXUsername}`);
                 }
-    
-                fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-                    if (err) throw err;
-                    console.log(err)
-                });
             }
         }
     } else if (message.author.username != BotUsername && Prestige[message.author.id]) {
@@ -456,11 +409,13 @@ CorsairianBot.on('message', (message) => {{
               }
             });
         } 
-        
-        fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
-            if (err) throw err;
-            console.log(err)
-        });
     }
-   
+    fs.writeFile(VerificationJSON, JSON.stringify(Code), (err) => {
+        if (err) throw err;
+        console.log(err)
+    });
+    fs.writeFile(PrestigeJSON, JSON.stringify(Prestige), (err) => {
+        if (err) throw err;
+        console.log(err)
+    });
 }})
