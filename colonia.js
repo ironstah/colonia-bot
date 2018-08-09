@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const VerificationJSON = `./VerificationCode.json`;
-const PrestigeJSON = `./Prestige.json`;
+const PrestigeJSON = `./Data.json`;
 let Prestige = require(PrestigeJSON);
 let Code = require(VerificationJSON);
 const CorsairianBot = new Discord.Client();
