@@ -25,7 +25,7 @@ CorsairianBot.on('message', (message) => {{
         searchwords.join(' + ');
         message.channel.send(`https://www.google.com/search?q=${searchwords}&rlz=1C1CHZL-enUS724US724&oq=search&aqs=chrome..69i57j69i60l2j0l3.5044j0j8&sourceid=chrome&ie=UTF-8`);
     } else if(message.content.startsWith(PREFIX + "help")) {
-        message.author.send("\n!search [sentence] - A google search link is posted. \n!amount [role] - The amount of people in the role is posted. \n!repeat [sentence] - The sentence is repeated. \n!kick [member] - The member is kicked. \n!ban [member] - The member is banned. \n!purge [number] - The amount of messages are deleted. \n!play [youtube link] - The youtube link's audio is played in a voice channel. \n!stopmusic - Stops current music. \n!skipmusic - Skips the music in the current queue. \n!roll - A dice roll is made between 1-100. \n!8ball - An 8ball answer is choosen. \n!either [option1] | [option2] - An option between the 2 is chosen. \n!flip - A coin flip is made. \n!newstats - New stats are made randomly.");
+        message.author.send("To be remade.");
     } else if(message.content.startsWith(PREFIX + "amount")) {
         const args = message.content.split(/\s+/g).slice(1);
         let role = message.mentions.roles.first();
