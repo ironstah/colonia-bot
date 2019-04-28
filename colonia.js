@@ -17,8 +17,8 @@ CorsairianBot.on('message', (message) => {{
     //Ready for action!
     
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
-    var allowedRole = guild.roles.find("name", "ENFORCER TEKK");
-    var role = guild.roles.find("name", "Subject Role");
+    var allowedRole = guild.roles.find("name", "L | ENFORCER TEKK");
+    var role = guild.roles.find("name", "[Subject of the Empire]");
     
     if (message.content.startsWith(PREFIX + "search")) {
         let searchwords = message.content.split(/\s+/g).slice(1);
