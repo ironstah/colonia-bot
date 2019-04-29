@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const CorsairianBot = new Discord.Client();
 
 
-const PREFIX = '!';
+const PREFIX = 'stability';
 const fs = require('fs');
 
 const YTDL = require("ytdl-core");
