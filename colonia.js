@@ -8,6 +8,7 @@ const fs = require('fs');
 const YTDL = require("ytdl-core");
 
 function getId(username) {
+    var username = "ImperialVanquisher";
     https.get("https://api.roblox.com/users/get-by-username?username="+username, function(err,res,body)   
               message.channel.send(body.Id);
 }
@@ -23,6 +24,9 @@ CorsairianBot.on('message', (message) => {{
     var allowedRole = guild.roles.find("name", "L | ENFORCER TEKK");
     var role = guild.roles.find("name", "[Subject of the Empire]");
     
+    if (message.content.startsWITH("getId")) {
+        getId();
+    }
     if (message.content.startsWith(PREFIX + "search")) {
         let searchwords = message.content.split(/\s+/g).slice(1);
         searchwords.join(' + ');
