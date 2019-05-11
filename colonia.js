@@ -5,12 +5,25 @@ const CorsairianBot = new Discord.Client();
 const PREFIX = 's>';
 const fs = require('fs');
 
-const YTDL = require("ytdl-core");
+const https = require('https');
 
 function getId(username) {
     var username = "ImperialVanquisher";
-    https.get("https://api.roblox.com/users/get-by-username?username="+username, function(err,res,body)   
-              message.channel.send(body.Id);
+    https.get("https://api.roblox.com/users/get-by-username?username="+username, (res) => { 
+        let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            return JSON.parse(data).Id
+        });
+
+    }).on('error', (err) => {
+       console.log("Error: "+ err.message); 
+    });
+        
 }
 
 CorsairianBot.login(process.env.BOT_TOKEN);
