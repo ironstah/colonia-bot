@@ -7,12 +7,15 @@ const fs = require('fs');
 
 const YTDL = require("ytdl-core");
 
+function getId(username) {
+    https.get("https://api.roblox.com/users/get-by-username?username="+username, function(err,res,body)   
+              message.channel.send(body.Id);
+}
+
 CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-    
-    //Trooper, //Corporal,  Sergeant, Staff Sergeant, Lieutenant, Colonel, General
 
     //Ready for action!
     
