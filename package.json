@@ -12,6 +12,7 @@
     "discord.js": "^11.1.0",
     "opusscript": "^0.0.3",
     "ytdl-core": "^0.15.0",
-    "noblox.js": "^4.2.6"
+    "noblox.js": "^4.2.6",
+    "mongoose": "^5.5.8"
   }
 }
