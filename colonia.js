@@ -173,12 +173,14 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-
+    
     //Ready for action!
     
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
     var allowedRole = guild.roles.find("name", "L | ENFORCER TEKK");
     var role = guild.roles.find("name", "Subject of the Empire");
+    
+    startApp();
     
     if (message.channel.name == "add-rep" && message.content.startsWith("getId")) {
         getUsers();
