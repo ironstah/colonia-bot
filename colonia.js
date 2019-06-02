@@ -7,7 +7,7 @@ const https = require('https');
 const rbx = require('noblox.js');
 const mongoose = require("mongoose");
 const data = require('data.js')
-mongoose.connect('mongodb://localhost/ImperialReputationLog', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGOOB_URI, { useNewUrlParser: true });
 
 var mainGroupId = 4376727;
 var knighthoodGroupId = 4378284;
