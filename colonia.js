@@ -173,6 +173,7 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
+    startApp();
     
     //Ready for action!
     
