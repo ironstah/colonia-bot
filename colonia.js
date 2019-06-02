@@ -103,8 +103,8 @@ async function startApp () {
     // Do everything else, calling functions and the like.
 }
 
-function getUsers() {
-    var userList = message.content.split("|")
+function getUsers(list) {
+    var userList = list;
     userList = userList.split("|");
     
     for (i=0; i<userList.length; i++) {
@@ -173,7 +173,6 @@ CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
-    startApp();
     
     //Ready for action!
     
@@ -184,7 +183,7 @@ CorsairianBot.on('message', (message) => {{
     startApp();
     
     if (message.channel.name == "add-rep" && message.content.startsWith("getId")) {
-        getUsers();
+        getUsers(message.content);
     } else if (message.content.startsWith(PREFIX + "search")) {
         let searchwords = message.content.split(/\s+/g).slice(1);
         searchwords.join(' + ');
@@ -285,7 +284,6 @@ CorsairianBot.on('message', (message) => {{
         }
     } else if (message.content.startsWith(PREFIX + "newstats")) {
         message.channel.send("Your strength is " + Math.floor(Math.random() * 20) + ". Your dexerity is " + Math.floor(Math.random() * 20) + ". Your constituion is " + Math.floor(Math.random() * 20) + ". Your intelligence is " + Math.floor(Math.random() * 20) +". Your wisdom is " + Math.floor(Math.random() * 20) +". Your charisma is " + Math.floor(Math.random() * 20) +". Your health is " + Math.floor(Math.random() * 100));
-    } else if (message.content.startsWith(PREFIX + "
-
+    } 
     
 }})
