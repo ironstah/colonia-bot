@@ -13,6 +13,8 @@ var mainGroupId = 4376727;
 var knighthoodGroupId = 4378284;
 var pantheonGroupId = 4465617;
 var royaltyGroupId = 4378280;
+var username = 'ImperialOrganizer';
+var password = process.env.ROBLOXPASS;
 
 var requiredMainRep = [
     Peasant = ["Peasant", 0, 1],
@@ -49,8 +51,6 @@ var requiredRoyaltyRep = [
     Viceroy = ["Viceroy", 2500, 201],
     
 ];
-
-var username = 'ImperialOrganizer';
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
@@ -136,7 +136,7 @@ function checkReputation(id, rep) {
 }
 
 async function startApp () {
-    await rbx.cookieLogin(process.env.ROBLOXPASS);
+    await rbx.cookieLogin(password);
     let currentUser = await rbx.getCurrentUser()
 }
 startApp()
