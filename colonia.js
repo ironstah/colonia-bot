@@ -53,7 +53,7 @@ var requiredRoyaltyRep = [
 ];
 
 async function startApp () {
-    await rbx.cookieLogin(`_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_${process.env.ROBLOXPASS}`);
+    await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+String(process.env.ROBLOXPASS));
     let currentUser = await rbx.getCurrentUser()
 }
 startApp()
@@ -63,6 +63,8 @@ startApp()
 .catch(function(error) { 
     console.log(`Login error: ${error}`) 
 });
+
+CorsairianBot.login(process.env.BOT_TOKEN);
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
@@ -215,8 +217,6 @@ function createDocument(idParam, usernameParam, repParam) {
     checkReputation(idParam, repParam);
 
 }
-
-CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Imperial Organizer";
