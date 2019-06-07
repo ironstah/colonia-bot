@@ -348,7 +348,7 @@ CorsairianBot.on('message', (message) => {{
                         title: 'Group-Wide Reputation',
                         fields: [{
                             name: `**REPUTATION: ${account.reputationPoints}**`,
-                            value: "Testing",
+                            value: "──────────────────────",
                         },
                         ],
                         timestamp: new Date(),
