@@ -5,7 +5,7 @@ const PREFIX = 's>';
 const https = require('https')
 const rbx = require('noblox.js')
 const mongoose = require("mongoose")
-mongoose.connect('mongodb+srv://ImperialKeeper:exorder69@ir-rep-cluster-jot4g.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://ImperialKeeper:ir-rep-cluster-jot4g.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 const data = require("./models/dataBeta.js")
 
 var mainGroupId = 4376727;
@@ -50,7 +50,7 @@ var requiredRoyaltyRep = [
 ];
 
 var username = 'ImperialOrganizer';
-var password = "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_FFDBCCAF1F2D959521D89192FAFA6C1770E67D45BE75408F2C5FB2A8FDCE1EA300949BDC2F35A101CAADC09EA80D05F1AC713BF8BC1471F2273CFF38DE6D2F7F151005BB77DB76577A0D604196BB5DFACE34B769B763F626A37E388C081164AFA9589FACEE2EA06900DFF9CBDCC2DF8FC7FC6EC0A8266C24648E0EF0A9E2C46A5027E3E9585269E43CE43DDCB04E71B3CEE3573AF66017DC29D113F51A9348731E388962A5A8F08E2B13BECF94A9AD0F88EF3532BDADF2C0C737A5A8427EF90FC271218A92178BA6168CB2ACC63445997A801569BB9944EE08BD52A46091548E09847BAD52AB502ECADA0D086954656B64A2FC3D8830D869BBE0D3A2C81D98393FDF8C2BB236797ACC9080F336DA6929EB6E186407AEF6BCBC7D027E6742DA01A381C723AC536CCB4449B2A1B76ADCF64E847138";
+var password = "
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
