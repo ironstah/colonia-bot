@@ -228,6 +228,7 @@ CorsairianBot.on('message', (message) => {{
     var role = guild.roles.find("name", "Subject of the Empire");
 
     if (message.channel.name == "reputation-log" && message.author.username != BotUsername) {
+        startApp();
         getUsers(message.content);
     } else if (message.content.startsWith(PREFIX + "search")) {
         let searchwords = message.content.split(/\s+/g).slice(1);
