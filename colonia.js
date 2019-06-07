@@ -50,7 +50,6 @@ var requiredRoyaltyRep = [
 ];
 
 var username = 'ImperialOrganizer';
-var password = process.env.ROBLOXPASS
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
@@ -136,7 +135,7 @@ function checkReputation(id, rep) {
 }
 
 async function startApp () {
-    await rbx.cookieLogin(password);
+    await rbx.cookieLogin(process.env.ROBLOXPASS);
     let currentUser = await rbx.getCurrentUser()
 }
 startApp()
