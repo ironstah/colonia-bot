@@ -1,20 +1,56 @@
 const Discord = require('discord.js');
 const CorsairianBot = new Discord.Client();
 
-
 const PREFIX = 's>';
-const https = require('https');
-const rbx = require('noblox.js');
-const mongoose = require("mongoose");
-const data = require('data.js')
-mongoose.connect(process.env.MONGOOB_URI, { useNewUrlParser: true });
+const https = require('https')
+const rbx = require('noblox.js')
+const mongoose = require("mongoose")
+mongoose.connect('mongodb+srv://ImperialKeeper:exorder69@ir-rep-cluster-jot4g.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+const data = require("./models/dataBeta.js")
 
 var mainGroupId = 4376727;
 var knighthoodGroupId = 4378284;
 var pantheonGroupId = 4465617;
 var royaltyGroupId = 4378280;
+
+var requiredMainRep = [
+    Peasant = ["Peasant", 0, 1],
+    Page = ["Page", 10, 3],
+    Sergeant = ["Sergeant", 30, 4],
+    Squire = ["Squire", 50, 5],
+    Knight = ["Knight", 100, 6],
+    Paladin = ["Paladin", 300, 7],
+    Marshal = ["Marshal", 700, 8],
+    CommanderAtArms = ["Commander At Arms", 1000, 100],
+    GrandCommander = ["Grand Commander", 1500, 101]
+];
+
+var requiredKnighthoodRep = [
+    AwaitingTryouts = ["Awaiting Tryouts", 0, 3],
+    Ranger = ["Ranger", 50, 5],
+    Marine = ["Marine", 100, 6],
+    Commando = ["Commando", 700, 8],
+    LordCommander = ["Lord Commander", 1500, 101]
+];
+
+var requiredPantheonRep = [
+    AwaitingTryouts = ["Awaiting Tryouts", 0, 3],
+    Worshiper = ["Worshiper", 50, 5],
+    Priest = ["Priest", 100, 6],
+    Chaplain = ["Chaplain", 700, 8],
+    GrandCommander = ["Grand Commander", 1500, 101]
+];
+
+var requiredRoyaltyRep = [
+    Peasant = ["Peasant", 0, 1],
+    MenAtArms = ["Men At Arms", 10, 3],
+    Marquis = ["Marquis", 2000, 200],
+    Viceroy = ["Viceroy", 2500, 201],
+    
+];
+
 var username = 'ImperialOrganizer';
-var password = process.env.ROBLOXPASS;
+var password = "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_FFDBCCAF1F2D959521D89192FAFA6C1770E67D45BE75408F2C5FB2A8FDCE1EA300949BDC2F35A101CAADC09EA80D05F1AC713BF8BC1471F2273CFF38DE6D2F7F151005BB77DB76577A0D604196BB5DFACE34B769B763F626A37E388C081164AFA9589FACEE2EA06900DFF9CBDCC2DF8FC7FC6EC0A8266C24648E0EF0A9E2C46A5027E3E9585269E43CE43DDCB04E71B3CEE3573AF66017DC29D113F51A9348731E388962A5A8F08E2B13BECF94A9AD0F88EF3532BDADF2C0C737A5A8427EF90FC271218A92178BA6168CB2ACC63445997A801569BB9944EE08BD52A46091548E09847BAD52AB502ECADA0D086954656B64A2FC3D8830D869BBE0D3A2C81D98393FDF8C2BB236797ACC9080F336DA6929EB6E186407AEF6BCBC7D027E6742DA01A381C723AC536CCB4449B2A1B76ADCF64E847138";
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
@@ -24,13 +60,14 @@ function setGroupRank(groupId, id, role) {
 }
 
 function checkReputation(id, rep) {
-    
     rbx.getRankInGroup(mainGroupId, id)
     .then(function (currentRole) {
-        console.log(currentRole);
+        console.log("Current role: " + currentRole);
         if (currentRole != 0) {
+            console.log("Length of array: " + requiredMainRep.length);
             for (i = 0; i<requiredMainRep.length; i++) { //Iterates through the array to see if the player's reputation is high enough.
-
+                console.log("Array spot: " + requiredMainRep[i]);
+                console.log("Array spot children 1: " + requiredMainRep[i][1]);
                 if (typeof requiredMainRep[i+1] == `undefined`) {
                     if (requiredMainRep[i][1] <= rep) {
                         var role = requiredMainRep[i][2];
@@ -99,12 +136,21 @@ function checkReputation(id, rep) {
 }
 
 async function startApp () {
-    await rbx.cookieLogin(String(process.env.ROBLOXPASS))
-    // Do everything else, calling functions and the like.
+    await rbx.cookieLogin(password);
+    let currentUser = await rbx.getCurrentUser()
 }
+startApp()
+.then(function() {
+    console.log('Logged in.') 
+})
+.catch(function(error) { 
+    console.log(`Login error: ${error}`) 
+});
 
 function getUsers(list) {
     var userList = list;
+    console.log(userList);
+
     userList = userList.split("|");
     
     for (i=0; i<userList.length; i++) {
@@ -118,6 +164,7 @@ function getUsers(list) {
             function searchAccount(result, name, rep) {
 
                 data.findOne({userId: result}, (err, account) => { // Looks for the user in the database, if not found creates an account. 
+                    console.log(result);
                     if (err) console.log(err);
                     if (!account) {
                         createDocument(result, name, rep);
@@ -169,7 +216,7 @@ function createDocument(idParam, usernameParam, repParam) {
 
 }
 
-CorsairianBot.login(process.env.BOT_TOKEN);
+CorsairianBot.login('NDYyMDE2ODAxNDM4NDMzMzIw.DkG8jQ.bS024w_9yNtT5nr55TYwZRRE9VU');
 
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Avatar Of Mesaphitus";
@@ -179,10 +226,8 @@ CorsairianBot.on('message', (message) => {{
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
     var allowedRole = guild.roles.find("name", "L | ENFORCER TEKK");
     var role = guild.roles.find("name", "Subject of the Empire");
-    
-    startApp();
-    
-    if (message.channel.name == "add-rep" && message.content.startsWith("getId")) {
+
+    if (message.channel.name == "test-rep" && message.author.username != BotUsername) {
         getUsers(message.content);
     } else if (message.content.startsWith(PREFIX + "search")) {
         let searchwords = message.content.split(/\s+/g).slice(1);
@@ -284,6 +329,39 @@ CorsairianBot.on('message', (message) => {{
         }
     } else if (message.content.startsWith(PREFIX + "newstats")) {
         message.channel.send("Your strength is " + Math.floor(Math.random() * 20) + ". Your dexerity is " + Math.floor(Math.random() * 20) + ". Your constituion is " + Math.floor(Math.random() * 20) + ". Your intelligence is " + Math.floor(Math.random() * 20) +". Your wisdom is " + Math.floor(Math.random() * 20) +". Your charisma is " + Math.floor(Math.random() * 20) +". Your health is " + Math.floor(Math.random() * 100));
-    } 
+    } else if (message.content.startsWith(PREFIX + "rep")) {
+        var args = message.content.split(" ");
+        var player = args[1];
+
+        getId(player, 0, function(result, name, rep) {
+            data.findOne({userId: result}, (err, account) => {
+                if (err) console.log("Error at retrieving data: \n" + err) 
+                else if (!account) {
+                    createDocument(result, name, rep);
+                } else {
+                    message.channel.send({embed: {
+                        color: 0x008080,
+                        author: {
+                            name: player,
+                            icon_url: message.author.avatarURL
+                        },
+                        title: 'Group-Wide Reputation',
+                        fields: [{
+                            name: `**REPUTATION: ${account.reputationPoints}**`,
+                            value: "Testing",
+                        },
+                        ],
+                        timestamp: new Date(),
+                        footer: {
+                        icon_url: CorsairianBot.user.avatarURL,
+                        text: "Office of Imperial Registry"
+                        }
+                    }
+                    });
+                }
+            })
+        });
+        
+    }
     
 }})
