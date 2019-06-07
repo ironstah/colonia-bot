@@ -5,7 +5,7 @@ const PREFIX = 's>';
 const https = require('https')
 const rbx = require('noblox.js')
 const mongoose = require("mongoose")
-mongoose.connect('mongodb+srv://ImperialKeeper:ir-rep-cluster-jot4g.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGOOB_URI, { useNewUrlParser: true });
 const data = require("./models/dataBeta.js")
 
 var mainGroupId = 4376727;
@@ -50,7 +50,7 @@ var requiredRoyaltyRep = [
 ];
 
 var username = 'ImperialOrganizer';
-var password = "
+var password = process.env.ROBLOXPASS
 
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
@@ -216,10 +216,10 @@ function createDocument(idParam, usernameParam, repParam) {
 
 }
 
-CorsairianBot.login('NDYyMDE2ODAxNDM4NDMzMzIw.DkG8jQ.bS024w_9yNtT5nr55TYwZRRE9VU');
+CorsairianBot.login(process.env.BOT_TOKEN);
 
 CorsairianBot.on('message', (message) => {{
-    var BotUsername = "Avatar Of Mesaphitus";
+    var BotUsername = "Imperial Organizer";
     
     //Ready for action!
     
