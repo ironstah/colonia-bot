@@ -1,3 +1,4 @@
+//Complete with cookies!
 const Discord = require('discord.js');
 const CorsairianBot = new Discord.Client();
 
