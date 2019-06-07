@@ -52,6 +52,18 @@ var requiredRoyaltyRep = [
     
 ];
 
+async function startApp () {
+    await rbx.cookieLogin(`_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_`${process.env.ROBLOXPASS});
+    let currentUser = await rbx.getCurrentUser()
+}
+startApp()
+.then(function() {
+    console.log('Logged in.') 
+})
+.catch(function(error) { 
+    console.log(`Login error: ${error}`) 
+});
+
 function setGroupRank(groupId, id, role) {
     rbx.setRank(groupId, id, role) 
     .then(function (newRank) {
@@ -134,18 +146,6 @@ function checkReputation(id, rep) {
         
     });   
 }
-
-async function startApp () {
-    await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+password);
-    let currentUser = await rbx.getCurrentUser()
-}
-startApp()
-.then(function() {
-    console.log('Logged in.') 
-})
-.catch(function(error) { 
-    console.log(`Login error: ${error}`) 
-});
 
 function getUsers(list) {
     var userList = list;
