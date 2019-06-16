@@ -17,7 +17,7 @@ var username = 'ImperialOrganizer';
 var password = process.env.ROBLOXPASS;
 
 var requiredMainRep = [
-    Peasant = ["Peasant", 0, 1],
+    Provincial = ["Provincial", 0, 1],
     Page = ["Page", 10, 3],
     Sergeant = ["Sergeant", 30, 4],
     Squire = ["Squire", 50, 5],
@@ -45,7 +45,7 @@ var requiredPantheonRep = [
 ];
 
 var requiredRoyaltyRep = [
-    Peasant = ["Peasant", 0, 1],
+    Peasant = ["Pronvincial", 0, 1],
     MenAtArms = ["Men At Arms", 10, 3],
     Marquis = ["Marquis", 2000, 200],
     Viceroy = ["Viceroy", 2500, 201],
@@ -219,7 +219,7 @@ function createDocument(idParam, usernameParam, repParam) {
 }
 
 CorsairianBot.on('message', (message) => {{
-    var BotUsername = "Imperial Organizer";
+    var BotUsername = "God of Stability";
     
     //Ready for action!
     
