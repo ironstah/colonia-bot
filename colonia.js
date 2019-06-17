@@ -53,7 +53,7 @@ var requiredRoyaltyRep = [
 ];
 
 async function startApp () {
-    await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+String(process.env.ROBLOXPASS));
+    await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+process.env.ROBLOXPASS);
     let currentUser = await rbx.getCurrentUser()
 }
 startApp()
