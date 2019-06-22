@@ -10,25 +10,27 @@ mongoose.connect(process.env.MONGOOB_URI, { useNewUrlParser: true });
 const data = require("./models/dataBeta.js")
 
 var mainGroupId = 4376727;
-var knighthoodGroupId = 4378284;
-var pantheonGroupId = 4465617;
-var royaltyGroupId = 4378280;
+//var knighthoodGroupId = 4378284;
+//var pantheonGroupId = 4465617;
+//var royaltyGroupId = 4378280;
 var username = 'ImperialOrganizer';
 var password = process.env.ROBLOXPASS;
 
 var requiredMainRep = [
-    Provincial = ["Provincial", 0, 1],
-    Page = ["Page", 10, 3],
-    Sergeant = ["Sergeant", 30, 4],
-    Squire = ["Squire", 50, 5],
-    Knight = ["Knight", 100, 6],
-    Paladin = ["Paladin", 300, 7],
-    Marshal = ["Marshal", 700, 8],
-    CommanderAtArms = ["Commander At Arms", 1000, 100],
-    GrandCommander = ["Grand Commander", 1500, 101]
+    Citizen = ["Citizen", 0, 1],
+    Private = ["Private", 1, 2],
+    Specialist = ["Specialist", 6, 3],
+    Corporal = ["Corporal", 36, 4],
+    Sergeant = ["Sergeant", 120, 5],
+    Lieutenant = ["Lieutenant", 270, 6],
+    Captain = ["Captain", 540, 7],
+    Major = ["Major", 900, 8],
+    Colonel = ["Colonel", 1320, 9],
+    General = ["General", 1620, 10],
+    Investor = ["Investor", 2400, 11],
 ];
 
-var requiredKnighthoodRep = [
+/*--[==[var requiredKnighthoodRep = [
     AwaitingTryouts = ["Awaiting Tryouts", 0, 3],
     Ranger = ["Ranger", 50, 5],
     Marine = ["Marine", 100, 6],
@@ -50,7 +52,7 @@ var requiredRoyaltyRep = [
     Marquis = ["Marquis", 2000, 200],
     Viceroy = ["Viceroy", 2500, 201],
     
-];
+];*/
 
 async function startApp () {
     await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+process.env.ROBLOXPASS);
@@ -101,7 +103,7 @@ function checkReputation(id, rep) {
         
        
     });
-    rbx.getRankInGroup(knighthoodGroupId, id)
+    /*rbx.getRankInGroup(knighthoodGroupId, id)
     .then(function (currentRole) {
         console.log(currentRole);
         if (currentRole != 0) {
@@ -146,7 +148,7 @@ function checkReputation(id, rep) {
             } 
         }
         
-    });   
+    }); */  
 }
 
 function getUsers(list) {
@@ -219,13 +221,13 @@ function createDocument(idParam, usernameParam, repParam) {
 }
 
 CorsairianBot.on('message', (message) => {{
-    var BotUsername = "God of Stability";
+    var BotUsername = "Imperial Organizer";
     
     //Ready for action!
     
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
-    var allowedRole = guild.roles.find("name", "L | ENFORCER TEKK");
-    var role = guild.roles.find("name", "Subject of the Empire");
+    var allowedRole = guild.roles.find("name", "Moderator");
+    var role = guild.roles.find("name", "Citizen");
 
     if (message.channel.name == "reputation-log" && message.author.username != BotUsername) {
         startApp();
