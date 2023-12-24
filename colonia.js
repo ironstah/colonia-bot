@@ -10,12 +10,12 @@ mongoose.connect(process.env.MONGOOB_URI, { useNewUrlParser: true });
 const data = require("./models/dataBeta.js")
 
 var mainGroupId = 4376727;
-//var knighthoodGroupId = 4378284;
-//var pantheonGroupId = 4465617;
-//var royaltyGroupId = 4378280;
 var username = 'ImperialOrganizer';
 var password = process.env.ROBLOXPASS;
 
+/*
+    A list of group ranks on ROBLOX and their XP requirements.
+*/
 var requiredMainRep = [
     Citizen = ["Citizen", 0, 1],
     Private = ["Private", 1, 2],
@@ -30,31 +30,10 @@ var requiredMainRep = [
     Investor = ["Investor", 2400, 11],
 ];
 
-/*--[==[var requiredKnighthoodRep = [
-    AwaitingTryouts = ["Awaiting Tryouts", 0, 3],
-    Ranger = ["Ranger", 50, 5],
-    Marine = ["Marine", 100, 6],
-    Commando = ["Commando", 700, 8],
-    LordCommander = ["Lord Commander", 1500, 101]
-];
-
-var requiredPantheonRep = [
-    AwaitingTryouts = ["Awaiting Tryouts", 0, 3],
-    Worshiper = ["Worshiper", 50, 5],
-    Priest = ["Priest", 100, 6],
-    Chaplain = ["Chaplain", 700, 8],
-    GrandCommander = ["Grand Commander", 1500, 101]
-];
-
-var requiredRoyaltyRep = [
-    Peasant = ["Pronvincial", 0, 1],
-    MenAtArms = ["Men At Arms", 10, 3],
-    Marquis = ["Marquis", 2000, 200],
-    Viceroy = ["Viceroy", 2500, 201],
-    
-];*/
 
 async function startApp () {
+    // This will login a ROBLOX account.
+
     await rbx.cookieLogin("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_"+process.env.ROBLOXPASS);
     let currentUser = await rbx.getCurrentUser()
 }
@@ -66,9 +45,11 @@ startApp()
     console.log(`Login error: ${error}`) 
 });
 
+// This will login the Discord bot.
 CorsairianBot.login(process.env.BOT_TOKEN);
 
 function setGroupRank(groupId, id, role) {
+    // Used to promote a player in a ROBLOX group.
     rbx.setRank(groupId, id, role) 
     .then(function (newRank) {
         console.log(newRank);
@@ -76,6 +57,8 @@ function setGroupRank(groupId, id, role) {
 }
 
 function checkReputation(id, rep) {
+    // This will get a player's rank in the group, then promote them or demote them based on their reputation points.
+
     rbx.getRankInGroup(mainGroupId, id)
     .then(function (currentRole) {
         console.log("Current role: " + currentRole);
@@ -103,52 +86,7 @@ function checkReputation(id, rep) {
         
        
     });
-    /*rbx.getRankInGroup(knighthoodGroupId, id)
-    .then(function (currentRole) {
-        console.log(currentRole);
-        if (currentRole != 0) {
-            for (i = 0; i<requiredKnighthoodRep.length; i++) { //Iterates through the array to see if the player's reputation is high enough.
-                if (typeof requiredKnighthoodRep[i+1] == `undefined`) {
-                    if (requiredKnighthoodRep[i][1] <= rep) {
-                        var role = requiredKnighthoodRep[i][2];
-                        console.log(role);
-                        setGroupRank(knighthoodGroupId, id, role);
-                        break;
-                    }
-                } else {
-                    if (requiredKnighthoodRep[i][1] <= rep && rep < requiredKnighthoodRep[i+1][1] ) {
-                        var role = requiredKnighthoodRep[i][2];
-                        setGroupRank(knighthoodGroupId, id, role);
-                        break;
-                    }
-                }
-            } 
-        }
-       
-    });   
-    rbx.getRankInGroup(pantheonGroupId, id)
-    .then(function (currentRole) {
-        console.log(currentRole);
-        if (currentRole != 0) {
-            for (i = 0; i<requiredPantheonRep.length; i++) { //Iterates through the array to see if the player's reputation is high enough.
-                if (typeof requiredPantheonRep[i+1] == `undefined`) {
-                    if (requiredPantheonRep[i][1] <= rep) {
-                        var role = requiredPantheonRep[i][2];
-                        console.log(role);
-                        setGroupRank(pantheonGroupId, id, role);
-                        break;
-                    }
-                } else {
-                    if (requiredPantheonRep[i][1] <= rep && rep < requiredPantheonRep[i+1][1] ) {
-                        var role = requiredPantheonRep[i][2];
-                        setGroupRank(pantheonGroupId, id, role);
-                        break;
-                    }
-                }
-            } 
-        }
-        
-    }); */  
+    
 }
 
 function getUsers(list) {
@@ -186,7 +124,9 @@ function getUsers(list) {
     }
 }
 
-function getId(username, rep, callback) { //Function that finds
+function getId(username, rep, callback) { 
+    // Takes in a username and get the player's ID on ROBLOX using an API call
+
     https.get("https://api.roblox.com/users/get-by-username?username="+username, (res) => { 
         let data = '';
 
@@ -205,17 +145,19 @@ function getId(username, rep, callback) { //Function that finds
 }
 
 function createDocument(idParam, usernameParam, repParam) {
+    // This creates a MongoDB document, to be used for a player on ROBLOX
+
     if (!repParam || repParam == null || repParam == "undefined") {
         repParam = "0";
     }
-    const newData = new data({ //Creates new entry
+    const newData = new data({ 
         _id: mongoose.Types.ObjectId(),
         username: usernameParam,
         userId: idParam,
         reputationPoints: repParam,
     });
     
-    newData.save(); //Saves and then prints the result of the new object.
+    newData.save(); 
     checkReputation(idParam, repParam);
 
 }
@@ -223,46 +165,77 @@ function createDocument(idParam, usernameParam, repParam) {
 CorsairianBot.on('message', (message) => {{
     var BotUsername = "Imperial Organizer";
     
-    //Ready for action!
+    /*
+    All of the commands a Discord bot can do for a player.
+    */
     
     var guild = CorsairianBot.guilds.get(`459442373517115392`);
     var allowedRole = guild.roles.find("name", "Moderator");
     var role = guild.roles.find("name", "Citizen");
 
     if (message.channel.name == "reputation-log" && message.author.username != BotUsername) {
+        // Boots up the entire Discord bot.
+
         startApp();
         getUsers(message.content);
     } else if (message.content.startsWith(PREFIX + "search")) {
+
+        // Creates a Google link based on what you want to search.
+
         let searchwords = message.content.split(/\s+/g).slice(1);
         searchwords.join(' + ');
         message.channel.send(`https://www.google.com/search?q=${searchwords}&rlz=1C1CHZL-enUS724US724&oq=search&aqs=chrome..69i57j69i60l2j0l3.5044j0j8&sourceid=chrome&ie=UTF-8`);
     } else if(message.content.startsWith(PREFIX + "help")) {
+        
+        // At this time, incomplete.
+
         message.author.send("To be remade.");
     } else if(message.content.startsWith(PREFIX + "amount")) {
+        
+        // Checks how many people have a certain role.
+
         const args = message.content.split(/\s+/g).slice(1);
         let role = message.mentions.roles.first();
         members = message.guild.roles.get(role.id).members; 
         message.channel.send(`${members.size} is the amount of people in this role.`);
     } else if(message.content.startsWith(PREFIX + "repeat")) {
+
+        // The discord bot repeats what was said.
+
         const args = message.content.split(/\s+/g).slice(1);
         i = 0;
         message.channel.send(args.join(" "));
-    } else if (message.content.startsWith(PREFIX + "kick") && message.member.roles.has(allowedRole.id)) { //Admin Section
+    } else if (message.content.startsWith(PREFIX + "kick") && message.member.roles.has(allowedRole.id)) { 
+        
+        // Admins can kick people from the Discord server.
+
         let member = message.mentions.members.first();
         member.kick();
         message.channel.send("Member has been kicked.");
     } else if (message.content.startsWith(PREFIX + "ban") && message.member.roles.has(allowedRole.id)) {
+
+        // Admins can ban people from the Discord server.
+
         let member = message.mentions.members.first();
         member.ban();
         message.channel.send("Member has been banned.");
     } else if (message.content.startsWith(PREFIX + "purge") && message.member.roles.has(allowedRole.id)) {
+
+        // Admins can delete an amount of messages.
+
         const args = message.content.split(/\s+/g).slice(1);
         let messagecount = parseInt(args[0]) + 1;
         message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
         message.channel.send("Messages deleted.");
     } else if(message.content.startsWith(PREFIX + "roll")) {
+
+        // A 20-sided dice is rolled.
+
         message.channel.send("You got a " + Math.floor(Math.random() * 20));
     } else if (message.content.startsWith(PREFIX + "8ball")) {
+
+        // An 8-ball is shaken and gives you a result randomly.
+
         const args = message.content.split(/\s+/g).slice(1);
         var Result = Math.floor(Math.random() * 20)
         if (Result == 0) {
@@ -309,6 +282,9 @@ CorsairianBot.on('message', (message) => {{
             message.channel.send("You got the magic number 20! Also, my reply is no.");
         }
     } else if (message.content.startsWith(PREFIX + "either")) {
+
+        // A sort of heads vs tail command where you have two options and the bot chooses randomly.
+
         const args = message.content.split(/\s+/g).slice(1);
         for (i = 0; i < args.length; i++) { 
             if (args[i] == "|") {
@@ -324,6 +300,9 @@ CorsairianBot.on('message', (message) => {{
             }
         }
     } else if (message.content.startsWith(PREFIX + "flip")) {
+        
+        // An actual heads or tails command.
+
         var Chance = Math.floor(Math.random() * 2);
         if (Chance == 1) {
             message.channel.send("Tails.");
@@ -331,8 +310,14 @@ CorsairianBot.on('message', (message) => {{
             message.channel.send("Heads.");
         }
     } else if (message.content.startsWith(PREFIX + "newstats")) {
+        
+        // It creates random statistics for a DnD character.
+
         message.channel.send("Your strength is " + Math.floor(Math.random() * 20) + ". Your dexerity is " + Math.floor(Math.random() * 20) + ". Your constituion is " + Math.floor(Math.random() * 20) + ". Your intelligence is " + Math.floor(Math.random() * 20) +". Your wisdom is " + Math.floor(Math.random() * 20) +". Your charisma is " + Math.floor(Math.random() * 20) +". Your health is " + Math.floor(Math.random() * 100));
     } else if (message.content.startsWith(PREFIX + "rep")) {
+
+        // This shows the amount of reputation points a player has.
+        
         var args = message.content.split(" ");
         var player = args[1];
 
